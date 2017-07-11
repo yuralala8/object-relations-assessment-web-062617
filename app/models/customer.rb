@@ -1,14 +1,14 @@
 class Customer
   attr_accessor :first_name, :last_name
 
-  @@customers = []
+  @@all = []
 
   def initialize(first_name, last_name)
     @first_name = first_name
     @last_name  = last_name
-    @reviews = []
-    @full_name = "#{first_name} #{last_name}"
-    @@customers << self.full_name
+    # @reviews = []
+    # @full_name = "#{first_name} #{last_name}"
+    @@all << self
   end
 
 
@@ -17,36 +17,32 @@ class Customer
   end
 
   def self.all
-    @@customers
+    @@all
   end
 
-  def self.find_by_name(name)
-    @full_name = name
-    @@customers.find do |customer|
-      if customer == name
-        customer
-      else
-        "There is no customer by that name."
-      end
+  def self.find_by_name(full_name)
+    self.all.find do |customer|
+        customer.full_name == full_name
+        # customer
+      # else
+      #   "There is no customer by that name."
+      #  end
     end
   end
 
-  def self.find_all_by_first_name(name)
-    @first_name = name
-    @@customers.select do |customer|
-      customer == name
-      else
-        "There is no customer by that first name."
-      end
+  def self.find_all_by_first_name(first_name)
+    self.all.select do |customer|
+      customer.first_name == first_name
     end
   end
 
   def self.all_names
-    @customers << full_name
+    self.all.collect do |customer|
+      customer.full_name
+    end
   end
 
   def add_review(restaurant, content)
-    restaurant = Restaurant.new()
+    review = Review.new(self, restaurant, content)
   end
-
 end
